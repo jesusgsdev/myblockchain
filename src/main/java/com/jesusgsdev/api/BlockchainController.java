@@ -5,6 +5,7 @@ import com.jesusgsdev.model.Block;
 import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.TransactionOutput;
 import com.jesusgsdev.model.Wallet;
+import com.jesusgsdev.rest.BlockRestOutput;
 import com.jesusgsdev.service.BlockService;
 import com.jesusgsdev.service.TransactionService;
 import com.jesusgsdev.util.TestService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
@@ -38,6 +40,10 @@ public class BlockchainController {
 
 	@GetMapping("/start")
 	public String initialize(){
+		if(coinConfig.getBlockchain().size() != 0){
+			return "The blockchain has been initialized";
+		}
+
 		//Create wallets:
 		String initialWalletId = coinConfig.createWallet();
 		Wallet walletA = coinConfig.getWallets().get(initialWalletId);
@@ -49,7 +55,7 @@ public class BlockchainController {
 		//manually set the transaction id
 		genesisTransaction.setTransactionId("0");
 		//manually add the Transactions Output
-		TransactionOutput genesisTXO = new TransactionOutput(genesisTransaction.getReciepient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId());
+		TransactionOutput genesisTXO = new TransactionOutput(genesisTransaction.getRecipient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId());
 		genesisTransaction.getOutputs().add(genesisTXO);
 		//its important to store our first transaction in the UTXOs list.
 		coinConfig.getUTXOs().put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0));
@@ -63,8 +69,8 @@ public class BlockchainController {
 	}
 
 	@GetMapping("/chain")
-	public List<Block> getBlockChain() {
-		return coinConfig.getBlockchain();
+	public List<BlockRestOutput> getBlockChain() {
+		return coinConfig.getBlockchain().stream().map(BlockRestOutput::new).collect(Collectors.toList());
 	}
 
 

@@ -2,6 +2,7 @@ package com.jesusgsdev.model;
 
 import com.jesusgsdev.util.StringUtil;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Date;

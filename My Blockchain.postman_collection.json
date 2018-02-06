@@ -105,6 +105,26 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "Initialize",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/chain",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"chain"
+					]
+				},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }

@@ -38,7 +38,7 @@ public class TestService {
         //manually set the transaction id
         genesisTransaction.setTransactionId("0");
         //manually add the Transactions Output
-        TransactionOutput genesisTXO = new TransactionOutput(genesisTransaction.getReciepient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId());
+        TransactionOutput genesisTXO = new TransactionOutput(genesisTransaction.getRecipient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId());
         genesisTransaction.getOutputs().add(genesisTXO);
         //its important to store our first transaction in the UTXOs list.
         coinConfig.getUTXOs().put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0));

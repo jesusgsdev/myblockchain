@@ -39,7 +39,7 @@ public class TransactionService {
         float leftOver = getInputsValue(transaction) - transaction.getValue();
         transaction.setTransactionId(calulateHash(transaction));
         //send transaction.getValue() to recipient
-        transaction.getOutputs().add(new TransactionOutput( transaction.getReciepient(), transaction.getValue(), transaction.getTransactionId()));
+        transaction.getOutputs().add(new TransactionOutput( transaction.getRecipient(), transaction.getValue(), transaction.getTransactionId()));
         //send the left over 'change' back to transaction.getSender()
         transaction.getOutputs().add(new TransactionOutput( transaction.getSender(), leftOver, transaction.getTransactionId()));
 
@@ -68,13 +68,13 @@ public class TransactionService {
 
     public void generateSignature(PrivateKey privateKey, Transaction transaction) {
         String data = StringUtil.getStringFromKey(transaction.getSender()) + 
-                StringUtil.getStringFromKey(transaction.getReciepient()) + 
+                StringUtil.getStringFromKey(transaction.getRecipient()) +
                 Float.toString(transaction.getValue())	;
         transaction.setSignature(StringUtil.applyECDSASig(privateKey,data));
     }
 
     public boolean verifiySignature(Transaction transaction) {
-        String data = StringUtil.getStringFromKey(transaction.getSender()) + StringUtil.getStringFromKey(transaction.getReciepient()) + Float.toString(transaction.getValue())	;
+        String data = StringUtil.getStringFromKey(transaction.getSender()) + StringUtil.getStringFromKey(transaction.getRecipient()) + Float.toString(transaction.getValue())	;
         return StringUtil.verifyECDSASig(transaction.getSender(), data, transaction.getSignature());
     }
 
@@ -91,7 +91,7 @@ public class TransactionService {
         transaction.setSequence(transaction.getSequence() + 1);
         return StringUtil.applySha256(
                 StringUtil.getStringFromKey(transaction.getSender()) +
-                        StringUtil.getStringFromKey(transaction.getReciepient()) +
+                        StringUtil.getStringFromKey(transaction.getRecipient()) +
                         Float.toString(transaction.getValue()) + transaction.getSequence()
         );
     }
