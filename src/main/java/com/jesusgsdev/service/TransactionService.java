@@ -1,6 +1,6 @@
 package com.jesusgsdev.service;
 
-import com.jesusgsdev.config.CoinConfig;
+import com.jesusgsdev.config.CoinCore;
 import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.TransactionInput;
 import com.jesusgsdev.model.TransactionOutput;
@@ -14,7 +14,7 @@ import java.security.PrivateKey;
 public class TransactionService {
 
     @Autowired
-    private CoinConfig coinConfig;
+    private CoinCore coinConfig;
     
     public boolean processTransaction(Transaction transaction) {
 

@@ -1,6 +1,6 @@
 package com.jesusgsdev;
 
-import com.jesusgsdev.config.CoinConfig;
+import com.jesusgsdev.config.CoinCore;
 import com.jesusgsdev.model.Block;
 import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.TransactionOutput;
@@ -19,7 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 public class MainTest {
 
     @Autowired
-    private CoinConfig coinConfig;
+    private CoinCore coinConfig;
 
     @Autowired
     private TransactionService transactionService;

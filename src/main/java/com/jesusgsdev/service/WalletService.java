@@ -1,6 +1,6 @@
 package com.jesusgsdev.service;
 
-import com.jesusgsdev.config.CoinConfig;
+import com.jesusgsdev.config.CoinCore;
 import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.TransactionInput;
 import com.jesusgsdev.model.TransactionOutput;
@@ -19,7 +19,7 @@ public class WalletService {
     private TransactionService transactionService;
 
     @Autowired
-    private CoinConfig coinConfig;
+    private CoinCore coinConfig;
 
     public float getBalance(Wallet wallet) {
         float total = 0;

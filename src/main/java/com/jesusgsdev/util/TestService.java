@@ -1,6 +1,6 @@
 package com.jesusgsdev.util;
 
-import com.jesusgsdev.config.CoinConfig;
+import com.jesusgsdev.config.CoinCore;
 import com.jesusgsdev.model.Block;
 import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.TransactionOutput;
@@ -9,14 +9,13 @@ import com.jesusgsdev.service.BlockService;
 import com.jesusgsdev.service.TransactionService;
 import com.jesusgsdev.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TestService {
 
     @Autowired
-    private CoinConfig coinConfig;
+    private CoinCore coinConfig;
 
     @Autowired
     private TransactionService transactionService;
@@ -29,9 +28,9 @@ public class TestService {
 
     public void mainTest(){
         //Create wallets:
-        Wallet walletA = new Wallet();
-        Wallet walletB = new Wallet();
-        Wallet coinbase = new Wallet();
+        Wallet walletA = coinConfig.getWallets().get(coinConfig.createWallet());
+        Wallet walletB = coinConfig.getWallets().get(coinConfig.createWallet());
+        Wallet coinbase = coinConfig.getWallets().get(coinConfig.createWallet());
 
         //create genesis transaction, which sends 100 NoobCoin to walletA:
         Transaction genesisTransaction = new Transaction(coinbase.getPublicKey(), walletA.getPublicKey(), 100f, null);

@@ -1,5 +1,6 @@
 package com.jesusgsdev.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 import java.security.*;
