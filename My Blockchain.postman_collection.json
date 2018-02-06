@@ -1,0 +1,110 @@
+{
+	"info": {
+		"name": "My Blockchain",
+		"_postman_id": "900c8994-e9a8-1939-8d2a-0d72aa13b554",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Wallets",
+			"description": "",
+			"item": [
+				{
+					"name": "Create a Wallet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/chain",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"chain"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get balance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/chain",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"chain"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"description": "",
+			"item": [
+				{
+					"name": "Submit Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sender\" : \"jesus\",\n\t\"recipient\" : \"manos\",\n\t\"amount\" : 500\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/transactions",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Blockchain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/chain",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"chain"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

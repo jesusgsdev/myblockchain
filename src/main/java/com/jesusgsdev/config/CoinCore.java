@@ -28,6 +28,9 @@ public class CoinCore {
     @Value("${application.coin.minimum_transaction}")
     private Float minimumTransaction;
 
+    public CoinCore() {
+    }
+
     public String createWallet(){
         Wallet wallet = new Wallet();
         String uuid = UUID.randomUUID().toString();
