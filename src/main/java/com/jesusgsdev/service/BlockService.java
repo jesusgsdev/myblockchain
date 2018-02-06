@@ -15,8 +15,8 @@ public class BlockService {
     public boolean addTransaction(Block block, Transaction transaction) {
         //process transaction and check if valid, unless block is genesis block then ignore.
         if(transaction == null) return false;
-        if((block.getPreviousHash() != "0")) {
-            if((transactionService.processTransaction(transaction) != true)) {
+        if(block.getPreviousHash() != "0") {
+            if(transactionService.processTransaction(transaction) != true) {
                 System.out.println("Transaction failed to process. Discarded.");
                 return false;
             }

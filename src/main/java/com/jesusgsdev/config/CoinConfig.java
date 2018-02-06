@@ -5,16 +5,17 @@ import com.jesusgsdev.model.TransactionOutput;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Getter
-@Configuration
+@Service
 public class CoinConfig {
 
-    private ArrayList<Block> blockchain = new ArrayList<Block>();
-    private HashMap<String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
+    private ArrayList<Block> blockchain = new ArrayList<>();
+    private HashMap<String,TransactionOutput> UTXOs = new HashMap<>();
 
     @Value("${application.coin.difficulty}")
     private Integer difficulty;

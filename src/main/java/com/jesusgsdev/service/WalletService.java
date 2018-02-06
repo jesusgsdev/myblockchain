@@ -8,11 +8,7 @@ import com.jesusgsdev.model.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,10 +16,10 @@ import java.util.Map;
 public class WalletService {
 
     @Autowired
-    TransactionService transactionService;
+    private TransactionService transactionService;
 
     @Autowired
-    CoinConfig coinConfig;
+    private CoinConfig coinConfig;
 
     public float getBalance(Wallet wallet) {
         float total = 0;
@@ -37,12 +33,12 @@ public class WalletService {
         return total;
     }
 
-    public Transaction sendFunds(Wallet originWallet, PublicKey _recipient, float value ) {
-        if(getBalance(originWallet) < value) {
+    public Transaction sendFunds(Wallet wallet, PublicKey _recipient, float value ) {
+        if(getBalance(wallet) < value) {
             System.out.println("#Not Enough funds to send transaction. Transaction Discarded.");
             return null;
         }
-        ArrayList<TransactionInput> inputs = new ArrayList<TransactionInput>();
+        ArrayList<TransactionInput> inputs = new ArrayList<>();
 
         float total = 0;
         for (Map.Entry<String, TransactionOutput> item: coinConfig.getUTXOs().entrySet()){
@@ -52,11 +48,11 @@ public class WalletService {
             if(total > value) break;
         }
 
-        Transaction newTransaction = new Transaction(originWallet.getPublicKey(), _recipient , value, inputs);
-        transactionService.generateSignature(originWallet.getPrivateKey(), newTransaction);
+        Transaction newTransaction = new Transaction(wallet.getPublicKey(), _recipient , value, inputs);
+        transactionService.generateSignature(wallet.getPrivateKey(), newTransaction);
 
         for(TransactionInput input: inputs){
-            coinConfig.getUTXOs().remove(input.transactionOutputId);
+            wallet.getUTXOs().remove(input.transactionOutputId);
         }
 
         return newTransaction;

@@ -1,4 +1,4 @@
-package com.jesusgsdev;
+package com.jesusgsdev.util;
 
 import com.jesusgsdev.config.CoinConfig;
 import com.jesusgsdev.model.Block;
@@ -8,15 +8,12 @@ import com.jesusgsdev.model.Wallet;
 import com.jesusgsdev.service.BlockService;
 import com.jesusgsdev.service.TransactionService;
 import com.jesusgsdev.service.WalletService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@WebAppConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
-public class MainTest {
+@Service
+public class TestService {
 
     @Autowired
     private CoinConfig coinConfig;
@@ -30,7 +27,6 @@ public class MainTest {
     @Autowired
     private BlockService blockService;
 
-    @Test
     public void mainTest(){
         //Create wallets:
         Wallet walletA = new Wallet();
@@ -40,9 +36,13 @@ public class MainTest {
         //create genesis transaction, which sends 100 NoobCoin to walletA:
         Transaction genesisTransaction = new Transaction(coinbase.getPublicKey(), walletA.getPublicKey(), 100f, null);
         transactionService.generateSignature(coinbase.getPrivateKey(), genesisTransaction);//manually sign the genesis transaction
-        genesisTransaction.setTransactionId("0"); //manually set the transaction id
-        genesisTransaction.getOutputs().add(new TransactionOutput(genesisTransaction.getReciepient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId())); //manually add the Transactions Output
-        coinConfig.getUTXOs().put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0)); //its important to store our first transaction in the UTXOs list.
+        //manually set the transaction id
+        genesisTransaction.setTransactionId("0");
+        //manually add the Transactions Output
+        TransactionOutput genesisTXO = new TransactionOutput(genesisTransaction.getReciepient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId());
+        genesisTransaction.getOutputs().add(genesisTXO);
+        //its important to store our first transaction in the UTXOs list.
+        coinConfig.getUTXOs().put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0));
 
         System.out.println("Creating and Mining Genesis block... ");
         Block genesis = new Block("0");
@@ -53,7 +53,8 @@ public class MainTest {
         Block block1 = new Block(genesis.getHash());
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("\nWalletA is Attempting to send funds (40) to WalletB...");
-        blockService.addTransaction(block1, walletService.sendFunds(walletA, walletB.getPublicKey(), 40f));
+        Transaction walletASend40ToWalletB =  walletService.sendFunds(walletA, walletB.getPublicKey(), 40f);
+        blockService.addTransaction(block1, walletASend40ToWalletB);
         coinConfig.addBlock(block1);
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
@@ -73,5 +74,4 @@ public class MainTest {
 
         coinConfig.isChainValid();
     }
-
 }

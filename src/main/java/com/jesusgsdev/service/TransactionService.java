@@ -14,7 +14,7 @@ import java.security.PrivateKey;
 public class TransactionService {
 
     @Autowired
-    CoinConfig coinConfig;
+    private CoinConfig coinConfig;
     
     public boolean processTransaction(Transaction transaction) {
 
