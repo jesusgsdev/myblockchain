@@ -1,28 +1,28 @@
-package com.jesusgsdev.util;
+package com.jesusgsdev.config;
 
 import com.jesusgsdev.model.Block;
-import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.TransactionOutput;
-import com.jesusgsdev.model.Wallet;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Service
-public class CoinUtil {
+@Getter
+@Configuration
+public class CoinConfig {
 
-    public static ArrayList<Block> blockchain = new ArrayList<Block>();
-    public static HashMap<String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
+    private ArrayList<Block> blockchain = new ArrayList<Block>();
+    private HashMap<String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
 
-    public static int difficulty = 3;
-    public static float minimumTransaction = 0.1f;
-    public static Wallet walletA;
-    public static Wallet walletB;
-    public static Transaction genesisTransaction;
+    @Value("${application.coin.difficulty}")
+    private Integer difficulty;
 
-    public static Boolean isChainValid() {
+    @Value("${application.coin.minimum_transaction}")
+    private Float minimumTransaction;
+
+    public Boolean isChainValid() {
         Block currentBlock;
         Block previousBlock;
         String hashTarget = new String(new char[difficulty]).replace('\0', '0');
@@ -51,9 +51,9 @@ public class CoinUtil {
         return true;
     }
 
-    public static void addBlock(Block newBlock) {
+    public void addBlock(Block newBlock) {
         newBlock.mineBlock(difficulty);
         blockchain.add(newBlock);
     }
-
+    
 }

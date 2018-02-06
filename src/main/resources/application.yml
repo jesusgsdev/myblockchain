@@ -1,0 +1,4 @@
+application:
+    coin:
+      difficulty: 3
+      minimum_transaction: 0.1

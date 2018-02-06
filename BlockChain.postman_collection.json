@@ -1,0 +1,78 @@
+{
+	"info": {
+		"name": "BlockChain",
+		"_postman_id": "b3fc936c-e003-c028-fd78-d66b5f1e03c4",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Blockchain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/chain",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"chain"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Transaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sender\" : \"jesus\",\n\t\"recipient\" : \"manos\",\n\t\"amount\" : 500\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Mine a block",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/mine",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"mine"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
