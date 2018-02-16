@@ -3,13 +3,14 @@ package com.jesusgsdev.config;
 import com.jesusgsdev.model.Block;
 import com.jesusgsdev.model.TransactionOutput;
 import com.jesusgsdev.model.Wallet;
+import com.jesusgsdev.service.BlockService;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -17,6 +18,8 @@ import java.util.UUID;
 @Getter
 @Service
 public class CoinCore {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CoinCore.class);
 
     private ArrayList<Block> blockchain = new ArrayList<>();
     private HashMap<String,TransactionOutput> UTXOs = new HashMap<>();
@@ -28,8 +31,10 @@ public class CoinCore {
     @Value("${application.coin.minimum_transaction}")
     private Float minimumTransaction;
 
-    public CoinCore() {
-    }
+    @Autowired
+    private BlockService blockService;
+
+    public CoinCore() { }
 
     public String createWallet(){
         Wallet wallet = new Wallet();
@@ -49,17 +54,17 @@ public class CoinCore {
             previousBlock = blockchain.get(i-1);
             //compare registered hash and calculated hash:
             if(!currentBlock.getHash().equals(currentBlock.calculateHash()) ){
-                System.out.println("Current Hashes not equal");
+                LOGGER.warn("Current Hashes not equal");
                 return false;
             }
             //compare previous hash and registered previous hash
             if(!previousBlock.getHash().equals(currentBlock.getPreviousHash()) ) {
-                System.out.println("Previous Hashes not equal");
+                LOGGER.warn("Previous Hashes not equal");
                 return false;
             }
             //check if hash is solved
             if(!currentBlock.getHash().substring( 0, difficulty).equals(hashTarget)) {
-                System.out.println("This block hasn't been mined");
+                LOGGER.warn("This block hasn't been mined");
                 return false;
             }
 
@@ -68,7 +73,7 @@ public class CoinCore {
     }
 
     public void addBlock(Block newBlock) {
-        newBlock.mineBlock(difficulty);
+        blockService.mineBlock(newBlock, difficulty);
         blockchain.add(newBlock);
     }
     

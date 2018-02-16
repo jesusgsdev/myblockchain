@@ -9,6 +9,8 @@ import com.jesusgsdev.rest.BlockRestOutput;
 import com.jesusgsdev.service.BlockService;
 import com.jesusgsdev.service.TransactionService;
 import com.jesusgsdev.util.TestService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/")
 public class BlockchainController {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(BlockchainController.class);
 
 	@Autowired
 	private TestService testService;
@@ -60,7 +64,7 @@ public class BlockchainController {
 		//its important to store our first transaction in the UTXOs list.
 		coinConfig.getUTXOs().put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0));
 
-		System.out.println("Creating and Mining Genesis block... ");
+		LOGGER.info("Creating and Mining Genesis block... ");
 		Block genesis = new Block("0");
 		blockService.addTransaction(genesis, genesisTransaction);
 		coinConfig.addBlock(genesis);
