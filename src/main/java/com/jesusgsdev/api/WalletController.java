@@ -18,7 +18,7 @@ public class WalletController {
 
 	@GetMapping
 	public String createWallet() {
-		return coinConfig.createWallet();
+		return walletService.createWallet();
 	}
 
 	@GetMapping("/{id}")

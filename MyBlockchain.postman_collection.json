@@ -1,6 +1,6 @@
 {
 	"info": {
-		"name": "My Blockchain",
+		"name": "MyBlockchain",
 		"_postman_id": "900c8994-e9a8-1939-8d2a-0d72aa13b554",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -17,13 +17,13 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "localhost:8080/chain",
+							"raw": "localhost:8080/wallet",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"chain"
+								"wallet"
 							]
 						},
 						"description": ""
@@ -37,13 +37,14 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "localhost:8080/chain",
+							"raw": "localhost:8080/wallet/21f177b5-f943-4d4c-85e7-caca42c729ef",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"chain"
+								"wallet",
+								"21f177b5-f943-4d4c-85e7-caca42c729ef"
 							]
 						},
 						"description": ""
@@ -68,7 +69,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"sender\" : \"jesus\",\n\t\"recipient\" : \"manos\",\n\t\"amount\" : 500\n}"
+							"raw": "{\n\t\"senderWalletId\" : \"636ddb0d-3b64-4637-a4e2-11dbd179e46e\",\n\t\"recipientWalletId\" : \"d5d224a4-3091-44a7-897b-96b8df8fed99\",\n\t\"amount\" : 30\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/transactions",
@@ -78,6 +79,32 @@
 							"port": "8080",
 							"path": [
 								"transactions"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Miner",
+			"description": "",
+			"item": [
+				{
+					"name": "Mine a block",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/mine",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mine"
 							]
 						},
 						"description": ""
@@ -113,13 +140,13 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:8080/chain",
+					"raw": "localhost:8080/start",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"chain"
+						"start"
 					]
 				},
 				"description": ""

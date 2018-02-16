@@ -1,8 +1,8 @@
 package com.jesusgsdev.service;
 
+import com.jesusgsdev.config.CoinCore;
 import com.jesusgsdev.model.Block;
 import com.jesusgsdev.model.Transaction;
-import com.jesusgsdev.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,12 @@ public class BlockService {
 
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private CoinCore coinCore;
+
+    @Autowired
+    private MinerService minerService;
 
     //Add transactions to this block
     public boolean addTransaction(Block block, Transaction transaction) {
@@ -34,15 +40,26 @@ public class BlockService {
         return true;
     }
 
-    //Increases nonce value until hash target is reached.
-    public void mineBlock(Block block, int difficulty) {
-        block.setMerkleRoot(StringUtil.getMerkleRoot(block.getTransactions()));
-        String target = StringUtil.getDificultyString(difficulty); //Create a string with difficulty * "0"
-        while(!block.getHash().substring( 0, difficulty).equals(target)) {
-            block.setNonce(block.getNonce() + 1);
-            block.setHash(block.calculateHash());
+    public String mineBlock() {
+        if(coinCore.getNonMinedBlocks().isEmpty()){
+            LOGGER.info("There is not blocks to mine");
+            return "There is not blocks to mine";
         }
-        LOGGER.info("Block Mined!!! : " + block.getHash());
+
+        Block blockToMine = coinCore.getNonMinedBlocks().get(0);
+        minerService.mineBlock(blockToMine, coinCore.getDifficulty());
+        coinCore.getBlockchain().add(blockToMine);
+        coinCore.getNonMinedBlocks().remove(0);
+
+        return "Block mined with hash: " + blockToMine.getHash();
+    }
+
+    public Block prepareNewBlock(){
+        return new Block(coinCore.getBlockchain().get(coinCore.getBlockchain().size() - 1).getHash());
+    }
+
+    public void addBlock(Block newBlock) {
+        coinCore.getNonMinedBlocks().add(newBlock);
     }
 
 }

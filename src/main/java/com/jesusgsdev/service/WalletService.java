@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class WalletService {
@@ -25,6 +26,13 @@ public class WalletService {
     @Autowired
     private CoinCore coinCore;
 
+    public String createWallet(){
+        Wallet wallet = new Wallet();
+        String uuid = UUID.randomUUID().toString();
+        coinCore.getWallets().put(uuid, wallet);
+        return uuid;
+    }
+
     public float getBalance(Wallet wallet) {
         float total = 0;
         for (Map.Entry<String, TransactionOutput> item: coinCore.getUTXOs().entrySet()){
@@ -35,6 +43,10 @@ public class WalletService {
             }
         }
         return total;
+    }
+
+    public Wallet getWalletById(String id){
+        return coinCore.getWallets().get(id);
     }
 
     public Transaction sendFunds(final Wallet wallet, PublicKey recipient, float value ) {

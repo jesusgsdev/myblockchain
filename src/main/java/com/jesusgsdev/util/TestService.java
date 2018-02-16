@@ -6,6 +6,7 @@ import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.TransactionOutput;
 import com.jesusgsdev.model.Wallet;
 import com.jesusgsdev.service.BlockService;
+import com.jesusgsdev.service.BlockchainService;
 import com.jesusgsdev.service.TransactionService;
 import com.jesusgsdev.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,14 @@ public class TestService {
     @Autowired
     private BlockService blockService;
 
+    @Autowired
+    private BlockchainService blockchainService;
+
     public void mainTest(){
         //Create wallets:
-        Wallet walletA = coinConfig.getWallets().get(coinConfig.createWallet());
-        Wallet walletB = coinConfig.getWallets().get(coinConfig.createWallet());
-        Wallet coinbase = coinConfig.getWallets().get(coinConfig.createWallet());
+        Wallet walletA = coinConfig.getWallets().get(walletService.createWallet());
+        Wallet walletB = coinConfig.getWallets().get(walletService.createWallet());
+        Wallet coinbase = coinConfig.getWallets().get(walletService.createWallet());
 
         //create genesis transaction, which sends 100 NoobCoin to walletA:
         Transaction genesisTransaction = new Transaction(coinbase.getPublicKey(), walletA.getPublicKey(), 100f, null);
@@ -46,7 +50,7 @@ public class TestService {
         System.out.println("Creating and Mining Genesis block... ");
         Block genesis = new Block("0");
         blockService.addTransaction(genesis, genesisTransaction);
-        coinConfig.addBlock(genesis);
+        blockService.addBlock(genesis);
 
         //testing
         Block block1 = new Block(genesis.getHash());
@@ -54,14 +58,14 @@ public class TestService {
         System.out.println("\nWalletA is Attempting to send funds (40) to WalletB...");
         Transaction walletASend40ToWalletB =  walletService.sendFunds(walletA, walletB.getPublicKey(), 40f);
         blockService.addTransaction(block1, walletASend40ToWalletB);
-        coinConfig.addBlock(block1);
+        blockService.addBlock(block1);
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
 
         Block block2 = new Block(block1.getHash());
         System.out.println("\nWalletA Attempting to send more funds (1000) than it has...");
         blockService.addTransaction(block2, walletService.sendFunds(walletA, walletB.getPublicKey(), 1000f));
-        coinConfig.addBlock(block2);
+        blockService.addBlock(block2);
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
 
@@ -71,6 +75,6 @@ public class TestService {
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
 
-        coinConfig.isChainValid();
+        blockchainService.isChainValid();
     }
 }
