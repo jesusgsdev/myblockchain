@@ -24,7 +24,7 @@ public class TransactionService {
 
     public boolean processTransaction(Transaction transaction) {
 
-        if(verifiySignature(transaction) == false) {
+        if(!verifiySignature(transaction)) {
             LOGGER.warn("#Transaction Signature failed to verify");
             return false;
         }

@@ -8,7 +8,8 @@ import java.security.PublicKey;
 
 @Data
 public class TransactionOutput {
-    private String id;
+
+	private String id;
     private PublicKey reciepient; //also known as the new owner of these coins.
     private float value; //the amount of coins they own
     private String parentTransactionId; //the id of the transaction this output was created in
@@ -18,7 +19,7 @@ public class TransactionOutput {
 		this.reciepient = reciepient;
 		this.value = value;
 		this.parentTransactionId = parentTransactionId;
-		this.id = StringUtil.applySha256(StringUtil.getStringFromKey(reciepient)+Float.toString(value)+parentTransactionId);
+		this.id = StringUtil.applySha256(StringUtil.getStringFromKey(reciepient) + Float.toString(value) + parentTransactionId);
 	}
 	
 	//Check if coin belongs to you

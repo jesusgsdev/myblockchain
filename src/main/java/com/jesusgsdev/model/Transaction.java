@@ -9,12 +9,12 @@ import java.util.ArrayList;
 public class Transaction {
 	
 	private String transactionId; //Contains a hash of transaction*
-	private PublicKey sender; //Senders address/public key.
-	private PublicKey recipient; //Recipients address/public key.
+	private PublicKey sender;
+	private PublicKey recipient;
 	private float value; //Contains the amount we wish to send to the recipient.
 	private byte[] signature; //This is to prevent anybody else from spending funds in our wallet.
 
-	private ArrayList<TransactionInput> inputs = new ArrayList<>();
+	private ArrayList<TransactionInput> inputs;
 	private ArrayList<TransactionOutput> outputs = new ArrayList<>();
 	
 	private int sequence = 0; //A rough count of how many transactions have been generated

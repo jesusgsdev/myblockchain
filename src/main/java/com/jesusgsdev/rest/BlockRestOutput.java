@@ -14,7 +14,7 @@ public class BlockRestOutput {
     private String hash;
     private String previousHash;
     private String merkleRoot;
-    private List<TransactionRestOutput> transactions = new LinkedList<>();
+    private List<TransactionRestOutput> transactions;
     private long timeStamp;
     private int nonce;
 
