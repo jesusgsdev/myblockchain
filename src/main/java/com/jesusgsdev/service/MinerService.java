@@ -19,7 +19,7 @@ public class MinerService {
             block.setNonce(block.getNonce() + 1);
             block.setHash(block.calculateHash());
         }
-        LOGGER.info("Block Mined!!! : " + block.getHash());
+        LOGGER.info("Block Mined {} with Nonce: {}!!! : ", block.getHash(), block.getNonce());
     }
 
 }
