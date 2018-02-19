@@ -44,6 +44,11 @@ public class BlockchainController {
 		return blockchainService.getBlockChain();
 	}
 
+	@GetMapping("/chain/validate")
+	public Boolean isBlockchainValid() {
+		return blockchainService.isChainValid();
+	}
+
 	@PostMapping("/mine")
 	public String mineBlock() {
 		return blockService.mineBlock();

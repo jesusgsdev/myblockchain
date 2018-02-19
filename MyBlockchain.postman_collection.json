@@ -37,14 +37,14 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "localhost:8080/wallet/21f177b5-f943-4d4c-85e7-caca42c729ef",
+							"raw": "localhost:8080/wallet/fbffc994-d51d-4117-b416-3151d3d741bc",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"wallet",
-								"21f177b5-f943-4d4c-85e7-caca42c729ef"
+								"fbffc994-d51d-4117-b416-3151d3d741bc"
 							]
 						},
 						"description": ""
@@ -69,7 +69,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"senderWalletId\" : \"636ddb0d-3b64-4637-a4e2-11dbd179e46e\",\n\t\"recipientWalletId\" : \"d5d224a4-3091-44a7-897b-96b8df8fed99\",\n\t\"amount\" : 30\n}"
+							"raw": "{\n\t\"senderWalletId\" : \"7f8d0dfc-99cb-4f24-a80d-e587625ca143\",\n\t\"recipientWalletId\" : \"fbffc994-d51d-4117-b416-3151d3d741bc\",\n\t\"amount\" : 30\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/transactions",
@@ -127,6 +127,27 @@
 					"port": "8080",
 					"path": [
 						"chain"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Blockchain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/chain/validate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"chain",
+						"validate"
 					]
 				},
 				"description": ""
