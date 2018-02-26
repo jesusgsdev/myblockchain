@@ -18,8 +18,6 @@ import java.util.List;
 @RequestMapping("/")
 public class BlockchainController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BlockchainController.class);
-
     @Autowired
     private TestService testService;
 

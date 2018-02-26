@@ -27,9 +27,6 @@ public class TransactionController {
     @Autowired
     private BlockService blockService;
 
-    @Autowired
-    private BlockchainService blockchainService;
-
     @PostMapping()
     public void submitTransaction(@RequestBody TransactionRestInput transactionRestInput) {
         Wallet senderWallet = walletService.getWalletById(transactionRestInput.getSenderWalletId());
