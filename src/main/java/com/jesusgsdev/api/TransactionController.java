@@ -19,33 +19,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/transactions")
 public class TransactionController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TransactionController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionController.class);
 
-	@Autowired
-	private WalletService walletService;
+    @Autowired
+    private WalletService walletService;
 
-	@Autowired
-	private BlockService blockService;
+    @Autowired
+    private BlockService blockService;
 
-	@Autowired
-	private BlockchainService blockchainService;
+    @Autowired
+    private BlockchainService blockchainService;
 
-	@PostMapping()
-	public void submitTransaction(@RequestBody TransactionRestInput transactionRestInput) {
-		Wallet senderWallet = walletService.getWalletById(transactionRestInput.getSenderWalletId());
-		Wallet recipientWallet = walletService.getWalletById(transactionRestInput.getRecipientWalletId());
-		Float amount = transactionRestInput.getAmount();
+    @PostMapping()
+    public void submitTransaction(@RequestBody TransactionRestInput transactionRestInput) {
+        Wallet senderWallet = walletService.getWalletById(transactionRestInput.getSenderWalletId());
+        Wallet recipientWallet = walletService.getWalletById(transactionRestInput.getRecipientWalletId());
+        Float amount = transactionRestInput.getAmount();
 
-		Block block = blockService.prepareNewBlock();
-		LOGGER.info("Origin Wallet's balance is: " + walletService.getBalance(senderWallet));
-		LOGGER.info("Origin Wallet is Attempting to send funds ("+ amount +") to Destination Wallet...");
+        Block block = blockService.prepareNewBlock();
+        LOGGER.info("Origin Wallet's balance is: " + walletService.getBalance(senderWallet));
+        LOGGER.info("Origin Wallet is Attempting to send funds ("+ amount +") to Destination Wallet...");
 
-		Transaction walletASendingToWalletB =  walletService.sendFunds(senderWallet, recipientWallet.getPublicKey(), amount);
-		blockService.addTransaction(block, walletASendingToWalletB);
-		blockService.addBlock(block);
+        Transaction walletASendingToWalletB =  walletService.sendFunds(senderWallet, recipientWallet.getPublicKey(), amount);
+        blockService.addTransaction(block, walletASendingToWalletB);
+        blockService.addBlock(block);
 
-		LOGGER.info("Origin Wallet's balance will be: " + walletService.getBalance(senderWallet));
-		LOGGER.info("Destination Wallet's balance will be: " + walletService.getBalance(recipientWallet));
-	}
+        LOGGER.info("Origin Wallet's balance will be: " + walletService.getBalance(senderWallet));
+        LOGGER.info("Destination Wallet's balance will be: " + walletService.getBalance(recipientWallet));
+    }
 
 }

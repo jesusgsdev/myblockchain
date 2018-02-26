@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/wallet")
 public class WalletController {
 
-	@Autowired
-	private CoinCore coinConfig;
+    @Autowired
+    private CoinCore coinConfig;
 
-	@Autowired
-	private WalletService walletService;
+    @Autowired
+    private WalletService walletService;
 
-	@GetMapping
-	public String createWallet() {
-		return walletService.createWallet();
-	}
+    @PostMapping
+    public String createWallet() {
+        return walletService.createWallet();
+    }
 
-	@GetMapping("/{id}")
-	public Float getBalance(@PathVariable String id) {
-		Wallet wallet = coinConfig.getWallets().get(id);
-		return walletService.getBalance(wallet);
-	}
+    @GetMapping("/{id}")
+    public Float getBalance(@PathVariable String id) {
+        Wallet wallet = coinConfig.getWallets().get(id);
+        return walletService.getBalance(wallet);
+    }
 
 
 }

@@ -12,8 +12,20 @@
 			"item": [
 				{
 					"name": "Create a Wallet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ef61383e-5d51-48af-bea5-f85176b68868",
+								"type": "text/javascript",
+								"exec": [
+									"pm.globals.set(\"RECIPIENT_WALLET_ID\", responseBody);"
+								]
+							}
+						}
+					],
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {},
 						"url": {
@@ -37,14 +49,14 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "localhost:8080/wallet/fbffc994-d51d-4117-b416-3151d3d741bc",
+							"raw": "localhost:8080/wallet/{{RECIPIENT_WALLET_ID}}",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"wallet",
-								"fbffc994-d51d-4117-b416-3151d3d741bc"
+								"{{RECIPIENT_WALLET_ID}}"
 							]
 						},
 						"description": ""
@@ -69,7 +81,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"senderWalletId\" : \"7f8d0dfc-99cb-4f24-a80d-e587625ca143\",\n\t\"recipientWalletId\" : \"fbffc994-d51d-4117-b416-3151d3d741bc\",\n\t\"amount\" : 30\n}"
+							"raw": "{\n\t\"senderWalletId\" : \"{{SENDER_WALLET_ID}}\",\n\t\"recipientWalletId\" : \"{{RECIPIENT_WALLET_ID}}\",\n\t\"amount\" : 30\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/transactions",
@@ -156,8 +168,20 @@
 		},
 		{
 			"name": "Initialize",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "007679a5-7cec-42ef-a8fb-151fbfd20cf1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.globals.set(\"SENDER_WALLET_ID\", responseBody);"
+						]
+					}
+				}
+			],
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {},
 				"url": {

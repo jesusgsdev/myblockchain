@@ -72,12 +72,12 @@ public class TransactionService {
     public void generateSignature(PrivateKey privateKey, Transaction transaction) {
         String data = StringUtil.getStringFromKey(transaction.getSender()) + 
                 StringUtil.getStringFromKey(transaction.getRecipient()) +
-                Float.toString(transaction.getValue())	;
+                Float.toString(transaction.getValue())    ;
         transaction.setSignature(StringUtil.applyECDSASig(privateKey,data));
     }
 
     public boolean verifiySignature(Transaction transaction) {
-        String data = StringUtil.getStringFromKey(transaction.getSender()) + StringUtil.getStringFromKey(transaction.getRecipient()) + Float.toString(transaction.getValue())	;
+        String data = StringUtil.getStringFromKey(transaction.getSender()) + StringUtil.getStringFromKey(transaction.getRecipient()) + Float.toString(transaction.getValue())    ;
         return StringUtil.verifyECDSASig(transaction.getSender(), data, transaction.getSignature());
     }
 

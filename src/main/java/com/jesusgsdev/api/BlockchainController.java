@@ -18,40 +18,40 @@ import java.util.List;
 @RequestMapping("/")
 public class BlockchainController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BlockchainController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlockchainController.class);
 
-	@Autowired
-	private TestService testService;
+    @Autowired
+    private TestService testService;
 
-	@Autowired
-	private BlockService blockService;
+    @Autowired
+    private BlockService blockService;
 
-	@Autowired
-	private BlockchainService blockchainService;
+    @Autowired
+    private BlockchainService blockchainService;
 
-	@GetMapping("/test")
-	public void test() {
-		testService.mainTest();
-	}
+    @GetMapping("/test")
+    public void test() {
+        testService.mainTest();
+    }
 
-	@GetMapping("/start")
-	public String initialize(){
-		return blockchainService.initialize();
-	}
+    @PostMapping("/start")
+    public String initialize(){
+        return blockchainService.initialize();
+    }
 
-	@GetMapping("/chain")
-	public List<BlockRestOutput> getBlockChain() {
-		return blockchainService.getBlockChain();
-	}
+    @GetMapping("/chain")
+    public List<BlockRestOutput> getBlockChain() {
+        return blockchainService.getBlockChain();
+    }
 
-	@GetMapping("/chain/validate")
-	public Boolean isBlockchainValid() {
-		return blockchainService.isChainValid();
-	}
+    @GetMapping("/chain/validate")
+    public Boolean isBlockchainValid() {
+        return blockchainService.isChainValid();
+    }
 
-	@PostMapping("/mine")
-	public String mineBlock() {
-		return blockService.mineBlock();
-	}
+    @PostMapping("/mine")
+    public String mineBlock() {
+        return blockService.mineBlock();
+    }
 
 }

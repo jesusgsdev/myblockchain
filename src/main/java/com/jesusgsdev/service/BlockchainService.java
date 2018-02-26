@@ -63,7 +63,7 @@ public class BlockchainService {
     }
 
     public List<BlockRestOutput> getBlockChain() {
-        return coinCore.getBlockchain().stream().map(BlockRestOutput::new).collect(Collectors.toList());
+        return coinCore.getBlockchain().stream().map(block -> new BlockRestOutput(block, coinCore.getWallets())).collect(Collectors.toList());
     }
 
     public Boolean isChainValid() {
