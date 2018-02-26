@@ -16,10 +16,10 @@ endpoints created.
 
 ### Third party libraries used
 
-- Lombok
-- SpringBoot 2.0.0 RC1
+- SpringBoot 2.0.0 RC2
 - Google Gson 2.8.2
 - Google Guava 23.0
 - Bouncy Castle 1.46
+- Lombok
 
 Also, for building the project in IntelliJ IDEA you would need the Lombok plugin `https://plugins.jetbrains.com/plugin/6317-lombok-plugin`
