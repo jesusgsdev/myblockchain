@@ -6,6 +6,8 @@ The current implementation of the Blockchain in Java allows:
 - Create wallets
 - Get wallet's balance
 - Send money between wallets
+- Mine a block after submitting a transaction
+- Validate the current blockchain
 
 ## Helper
 
