@@ -44,3 +44,5 @@ and our new block with our transaction.
 the UUID in the URL by the one you want to check the balance.
 - You can adjust the difficulty using `Set Difficulty` replacing the current 4
 given as example by any integer bigger or equal to 0.
+
+##### Source of inspiration for the project: https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa
