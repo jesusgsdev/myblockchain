@@ -50,22 +50,13 @@ public class TransactionService {
         transaction.getOutputs().add(new TransactionOutput( transaction.getSender(), leftOver, transaction.getTransactionId()));
 
         //Add outputs to Unspent list
-        //transaction.getOutputs().forEach(o -> coinCore.getUTXOs().put(o.getId() , o));
-
-        for(TransactionOutput o : transaction.getOutputs()) {
-            coinCore.getUTXOs().put(o.getId() , o);
-        }
+        transaction.getOutputs().forEach(o -> coinCore.getUTXOs().put(o.getId() , o));
 
         //Remove transaction inputs from UTXO lists as spent:
-        /*transaction.getInputs()
+        transaction.getInputs()
                 .stream()
                 .filter(i -> nonNull(i.UTXO)) //if Transaction can't be found skip it
-                .forEach(i -> coinCore.getUTXOs().remove(i.UTXO.getId()));*/
-
-        for(TransactionInput i : transaction.getInputs()) {
-            if(i.UTXO == null) continue; //if Transaction can't be found skip it
-            coinCore.getUTXOs().remove(i.UTXO.getId());
-        }
+                .forEach(i -> coinCore.getUTXOs().remove(i.UTXO.getId()));
 
         return true;
     }

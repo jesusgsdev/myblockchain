@@ -41,8 +41,6 @@ public class TransactionController {
         Transaction transaction = walletService.sendFunds(senderWallet, recipientWallet.getPublicKey(), amount);
         blockService.addTransaction(block, transaction);
         blockService.addBlock(block);
-        //TODO temporal
-        blockService.mineBlock();
 
         LOGGER.info("Origin Wallet's balance will be: " + walletService.getBalance(senderWallet));
         LOGGER.info("Destination Wallet's balance will be: " + walletService.getBalance(recipientWallet));
