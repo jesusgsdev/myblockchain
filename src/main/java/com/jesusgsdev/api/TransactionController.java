@@ -35,11 +35,14 @@ public class TransactionController {
 
         Block block = blockService.prepareNewBlock();
         LOGGER.info("Origin Wallet's balance is: " + walletService.getBalance(senderWallet));
+        LOGGER.info("Recipient Wallet's balance is: " + walletService.getBalance(recipientWallet));
         LOGGER.info("Origin Wallet is Attempting to send funds ("+ amount +") to Destination Wallet...");
 
-        Transaction walletASendingToWalletB =  walletService.sendFunds(senderWallet, recipientWallet.getPublicKey(), amount);
-        blockService.addTransaction(block, walletASendingToWalletB);
+        Transaction transaction = walletService.sendFunds(senderWallet, recipientWallet.getPublicKey(), amount);
+        blockService.addTransaction(block, transaction);
         blockService.addBlock(block);
+        //TODO temporal
+        blockService.mineBlock();
 
         LOGGER.info("Origin Wallet's balance will be: " + walletService.getBalance(senderWallet));
         LOGGER.info("Destination Wallet's balance will be: " + walletService.getBalance(recipientWallet));

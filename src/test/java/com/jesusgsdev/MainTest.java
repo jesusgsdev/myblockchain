@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.UUID;
+
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MainTest {
@@ -37,9 +39,9 @@ public class MainTest {
     @Test
     public void mainTest(){
         //Create wallets:
-        Wallet walletA = new Wallet();
-        Wallet walletB = new Wallet();
-        Wallet coinbase = new Wallet();
+        Wallet walletA = new Wallet(UUID.randomUUID().toString());
+        Wallet walletB = new Wallet(UUID.randomUUID().toString());
+        Wallet coinbase = new Wallet(UUID.randomUUID().toString());
 
         //create genesis transaction, which sends 100 NoobCoin to walletA:
         Transaction genesisTransaction = new Transaction(coinbase.getPublicKey(), walletA.getPublicKey(), 100f, null);

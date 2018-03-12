@@ -24,7 +24,7 @@ public class TransactionService {
 
     public boolean processTransaction(Transaction transaction) {
 
-        if(!verifiySignature(transaction)) {
+        if(!verifySignature(transaction)) {
             LOGGER.warn("#Transaction Signature failed to verify");
             return false;
         }
@@ -50,13 +50,22 @@ public class TransactionService {
         transaction.getOutputs().add(new TransactionOutput( transaction.getSender(), leftOver, transaction.getTransactionId()));
 
         //Add outputs to Unspent list
-        transaction.getOutputs().forEach(o -> coinCore.getUTXOs().put(o.getId() , o));
+        //transaction.getOutputs().forEach(o -> coinCore.getUTXOs().put(o.getId() , o));
+
+        for(TransactionOutput o : transaction.getOutputs()) {
+            coinCore.getUTXOs().put(o.getId() , o);
+        }
 
         //Remove transaction inputs from UTXO lists as spent:
-        transaction.getInputs()
+        /*transaction.getInputs()
                 .stream()
                 .filter(i -> nonNull(i.UTXO)) //if Transaction can't be found skip it
-                .forEach(i -> coinCore.getUTXOs().remove(i.UTXO.getId()));
+                .forEach(i -> coinCore.getUTXOs().remove(i.UTXO.getId()));*/
+
+        for(TransactionInput i : transaction.getInputs()) {
+            if(i.UTXO == null) continue; //if Transaction can't be found skip it
+            coinCore.getUTXOs().remove(i.UTXO.getId());
+        }
 
         return true;
     }
@@ -76,7 +85,7 @@ public class TransactionService {
         transaction.setSignature(StringUtil.applyECDSASig(privateKey,data));
     }
 
-    public boolean verifiySignature(Transaction transaction) {
+    public boolean verifySignature(Transaction transaction) {
         String data = StringUtil.getStringFromKey(transaction.getSender()) + StringUtil.getStringFromKey(transaction.getRecipient()) + Float.toString(transaction.getValue())    ;
         return StringUtil.verifyECDSASig(transaction.getSender(), data, transaction.getSignature());
     }

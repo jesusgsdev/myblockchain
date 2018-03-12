@@ -27,10 +27,9 @@ public class WalletService {
     private CoinCore coinCore;
 
     public String createWallet(){
-        Wallet wallet = new Wallet();
-        String uuid = UUID.randomUUID().toString();
-        coinCore.getWallets().put(uuid, wallet);
-        return uuid;
+        Wallet wallet = new Wallet(UUID.randomUUID().toString());
+        coinCore.getWallets().put(wallet.getUuid(), wallet);
+        return wallet.getUuid();
     }
 
     public float getBalance(Wallet wallet) {
@@ -38,8 +37,8 @@ public class WalletService {
         for (Map.Entry<String, TransactionOutput> item: coinCore.getUTXOs().entrySet()){
             TransactionOutput UTXO = item.getValue();
             if(UTXO.isMine(wallet.getPublicKey())) { //if output belongs to me ( if coins belong to me )
-                coinCore.getUTXOs().put(UTXO.getId(),UTXO); //add it to our list of unspent transactions.
-                total += UTXO.getValue() ;
+                wallet.getUTXOs().put(UTXO.getId(), UTXO); //add it to our list of unspent transactions.
+                total += UTXO.getValue();
             }
         }
         return total;
@@ -49,7 +48,7 @@ public class WalletService {
         return coinCore.getWallets().get(id);
     }
 
-    public Transaction sendFunds(final Wallet wallet, PublicKey recipient, float value ) {
+    public Transaction sendFunds(Wallet wallet, PublicKey recipient, float value ) {
         if(getBalance(wallet) < value) {
             LOGGER.warn("Not Enough funds to send transaction. Transaction Discarded");
             return null;
@@ -57,7 +56,7 @@ public class WalletService {
         ArrayList<TransactionInput> inputs = new ArrayList<>();
 
         float total = 0;
-        for (Map.Entry<String, TransactionOutput> item: coinCore.getUTXOs().entrySet()){
+        for (Map.Entry<String, TransactionOutput> item: wallet.getUTXOs().entrySet()){
             TransactionOutput UTXO = item.getValue();
             total += UTXO.getValue();
             inputs.add(new TransactionInput(UTXO.getId()));
@@ -67,7 +66,13 @@ public class WalletService {
         Transaction newTransaction = new Transaction(wallet.getPublicKey(), recipient , value, inputs);
         transactionService.generateSignature(wallet.getPrivateKey(), newTransaction);
 
-        inputs.forEach(input -> wallet.getUTXOs().remove(input.transactionOutputId));
+        //inputs.forEach(input -> wallet.getUTXOs().remove(input.transactionOutputId));
+
+        for(TransactionInput input: inputs){
+            wallet.getUTXOs().remove(input.transactionOutputId);
+        }
+
+        coinCore.getWallets().put(wallet.getUuid(), wallet);
 
         return newTransaction;
     }

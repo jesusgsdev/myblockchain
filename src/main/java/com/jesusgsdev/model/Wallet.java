@@ -14,7 +14,11 @@ public class Wallet {
 
     private HashMap<String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
 
-    public Wallet() {
+    private String uuid;
+
+
+    public Wallet(String uuid) {
+        this.uuid = uuid;
         generateKeyPair();
     }
 

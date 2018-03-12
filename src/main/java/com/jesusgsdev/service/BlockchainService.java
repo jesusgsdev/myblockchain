@@ -39,11 +39,11 @@ public class BlockchainService {
 
         //Create wallets:
         String initialWalletId = walletService.createWallet();
-        Wallet walletA = coinCore.getWallets().get(initialWalletId);
+        Wallet initialWallet = coinCore.getWallets().get(initialWalletId);
         Wallet coinbase = coinCore.getWallets().get(walletService.createWallet());
 
-        //create genesis transaction, which sends 100 NoobCoin to walletA:
-        Transaction genesisTransaction = new Transaction(coinbase.getPublicKey(), walletA.getPublicKey(), 100f, null);
+        //create genesis transaction, which sends 100 NoobCoin to initialWallet:
+        Transaction genesisTransaction = new Transaction(coinbase.getPublicKey(), initialWallet.getPublicKey(), 100f, null);
         transactionService.generateSignature(coinbase.getPrivateKey(), genesisTransaction);//manually sign the genesis transaction
         //manually set the transaction id
         genesisTransaction.setTransactionId("0");

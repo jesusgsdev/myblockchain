@@ -49,7 +49,7 @@ public class BlockService {
         Block blockToMine = coinCore.getNonMinedBlocks().get(0);
         minerService.mineBlock(blockToMine, coinCore.getDifficulty());
         coinCore.getBlockchain().add(blockToMine);
-        coinCore.getNonMinedBlocks().remove(0);
+        coinCore.getNonMinedBlocks().remove(blockToMine);
 
         return "Block mined with hash: " + blockToMine.getHash();
     }
@@ -59,7 +59,9 @@ public class BlockService {
     }
 
     public void addBlock(Block newBlock) {
-        coinCore.getNonMinedBlocks().add(newBlock);
+        if(!newBlock.getTransactions().isEmpty()) {
+            coinCore.getNonMinedBlocks().add(newBlock);
+        }
     }
 
 }

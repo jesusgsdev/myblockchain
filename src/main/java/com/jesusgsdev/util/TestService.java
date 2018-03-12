@@ -51,27 +51,40 @@ public class TestService {
         Block genesis = new Block("0");
         blockService.addTransaction(genesis, genesisTransaction);
         blockService.addBlock(genesis);
+        blockService.mineBlock();
 
         //testing
-        Block block1 = new Block(genesis.getHash());
+        Block block1 = blockService.prepareNewBlock();
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("\nWalletA is Attempting to send funds (40) to WalletB...");
         Transaction walletASend40ToWalletB =  walletService.sendFunds(walletA, walletB.getPublicKey(), 40f);
         blockService.addTransaction(block1, walletASend40ToWalletB);
         blockService.addBlock(block1);
+        blockService.mineBlock();
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
 
-        Block block2 = new Block(block1.getHash());
+        Block block2 = blockService.prepareNewBlock();
         System.out.println("\nWalletA Attempting to send more funds (1000) than it has...");
         blockService.addTransaction(block2, walletService.sendFunds(walletA, walletB.getPublicKey(), 1000f));
         blockService.addBlock(block2);
+        blockService.mineBlock();
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
 
-        Block block3 = new Block(block2.getHash());
+        Block block3 = blockService.prepareNewBlock();
+        System.out.println("\nWalletB is Attempting to send funds (10) to WalletA...");
+        blockService.addTransaction(block3, walletService.sendFunds(walletB, walletA.getPublicKey(), 10f));
+        blockService.addBlock(block3);
+        blockService.mineBlock();
+        System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
+        System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
+
+        Block block4 = blockService.prepareNewBlock();
         System.out.println("\nWalletB is Attempting to send funds (20) to WalletA...");
-        blockService.addTransaction(block3, walletService.sendFunds(walletB, walletA.getPublicKey(), 20f));
+        blockService.addTransaction(block4, walletService.sendFunds(walletB, walletA.getPublicKey(), 20f));
+        blockService.addBlock(block4);
+        blockService.mineBlock();
         System.out.println("\nWalletA's balance is: " + walletService.getBalance(walletA));
         System.out.println("WalletB's balance is: " + walletService.getBalance(walletB));
 
