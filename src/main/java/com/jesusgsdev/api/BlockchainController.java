@@ -43,8 +43,8 @@ public class BlockchainController {
     }
 
     @GetMapping("/chain/validate")
-    public Boolean isBlockchainValid() {
-        return blockchainService.isChainValid();
+    public String isBlockchainValid() {
+        return blockchainService.isChainValid() ? "The current blockchain is valid" : "The blockchain is not longer valid";
     }
 
     @PostMapping("/mine")
