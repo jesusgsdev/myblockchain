@@ -31,4 +31,7 @@ public class CoinCore {
 
     public CoinCore() { }
 
+    public void setDifficulty(Integer difficulty) {
+        this.difficulty = difficulty;
+    }
 }

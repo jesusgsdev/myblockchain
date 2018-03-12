@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class TestService {
 
     @Autowired
-    private CoinCore coinConfig;
+    private CoinCore coinCore;
 
     @Autowired
     private TransactionService transactionService;
@@ -32,9 +32,9 @@ public class TestService {
 
     public void mainTest(){
         //Create wallets:
-        Wallet walletA = coinConfig.getWallets().get(walletService.createWallet());
-        Wallet walletB = coinConfig.getWallets().get(walletService.createWallet());
-        Wallet coinbase = coinConfig.getWallets().get(walletService.createWallet());
+        Wallet walletA = coinCore.getWallets().get(walletService.createWallet());
+        Wallet walletB = coinCore.getWallets().get(walletService.createWallet());
+        Wallet coinbase = coinCore.getWallets().get(walletService.createWallet());
 
         //create genesis transaction, which sends 100 NoobCoin to walletA:
         Transaction genesisTransaction = new Transaction(coinbase.getPublicKey(), walletA.getPublicKey(), 100f, null);
@@ -45,7 +45,7 @@ public class TestService {
         TransactionOutput genesisTXO = new TransactionOutput(genesisTransaction.getRecipient(), genesisTransaction.getValue(), genesisTransaction.getTransactionId());
         genesisTransaction.getOutputs().add(genesisTXO);
         //its important to store our first transaction in the UTXOs list.
-        coinConfig.getUTXOs().put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0));
+        coinCore.getUTXOs().put(genesisTransaction.getOutputs().get(0).getId(), genesisTransaction.getOutputs().get(0));
 
         System.out.println("Creating and Mining Genesis block... ");
         Block genesis = new Block("0");

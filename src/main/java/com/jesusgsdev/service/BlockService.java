@@ -25,7 +25,7 @@ public class BlockService {
     private MinerService minerService;
 
     //Add transactions to this block
-    public boolean addTransaction(Block block, Transaction transaction) {
+    public Boolean addTransaction(Block block, Transaction transaction) {
         //process transaction and check if valid, unless block is genesis block then ignore.
         if(isNull(transaction)) return false;
         if(!block.getPreviousHash().equals("0")) {

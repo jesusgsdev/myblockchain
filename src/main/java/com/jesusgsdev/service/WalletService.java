@@ -53,8 +53,8 @@ public class WalletService {
             LOGGER.warn("Not Enough funds to send transaction. Transaction Discarded");
             return null;
         }
-        ArrayList<TransactionInput> inputs = new ArrayList();
 
+        ArrayList<TransactionInput> inputs = new ArrayList<>();
         float total = 0;
         for (Map.Entry<String, TransactionOutput> item: wallet.getUTXOs().entrySet()){
             TransactionOutput UTXO = item.getValue();
@@ -67,8 +67,6 @@ public class WalletService {
         transactionService.generateSignature(wallet.getPrivateKey(), newTransaction);
 
         inputs.forEach(input -> wallet.getUTXOs().remove(input.transactionOutputId));
-
-        coinCore.getWallets().put(wallet.getUuid(), wallet);
 
         return newTransaction;
     }

@@ -1,16 +1,12 @@
 package com.jesusgsdev.api;
 
+import com.jesusgsdev.config.CoinCore;
 import com.jesusgsdev.rest.BlockRestOutput;
 import com.jesusgsdev.service.BlockService;
 import com.jesusgsdev.service.BlockchainService;
 import com.jesusgsdev.util.TestService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +22,9 @@ public class BlockchainController {
 
     @Autowired
     private BlockchainService blockchainService;
+
+    @Autowired
+    private CoinCore coinCore;
 
     @GetMapping("/test")
     public void test() {
@@ -50,6 +49,12 @@ public class BlockchainController {
     @PostMapping("/mine")
     public String mineBlock() {
         return blockService.mineBlock();
+    }
+
+    @PutMapping("/difficulty/{level}")
+    public String updateDificulty(@PathVariable Integer level) {
+        coinCore.setDifficulty(level);
+        return "Difficulty updated to " + level;
     }
 
 }

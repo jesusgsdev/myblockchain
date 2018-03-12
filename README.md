@@ -16,7 +16,7 @@ endpoints created.
 
 ### Third party libraries used
 
-- SpringBoot 2.0.0 RC2
+- SpringBoot 2.0.0 RELEASE
 - Google Gson 2.8.2
 - Google Guava 23.0
 - Bouncy Castle 1.46
@@ -26,7 +26,7 @@ Also, for building the project in IntelliJ IDEA you would need the Lombok plugin
 
 ## How to use it
 
-1. On the Postman Collection, use the `initialize` call. This will give you back
+1. On the Postman Collection, use the `Initialize` call. This will give you back
 the UUID of the main walled and will be saved on the environment variable called 
 {{SENDER_WALLET_ID}}.
 2. Use the action `Create Wallet` to create a new wallet to start transferring coins
@@ -42,3 +42,5 @@ and our new block with our transaction.
 - You can always verify that the blockchain is valid using `Validate Blockchain`.
 - You can always get the balance of any wallet using `Get balance` and replacing
 the UUID in the URL by the one you want to check the balance.
+- You can adjust the difficulty using `Set Difficulty` replacing the current 4
+given as example by any integer bigger or equal to 0.

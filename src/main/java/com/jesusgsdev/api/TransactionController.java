@@ -5,7 +5,6 @@ import com.jesusgsdev.model.Transaction;
 import com.jesusgsdev.model.Wallet;
 import com.jesusgsdev.rest.TransactionRestInput;
 import com.jesusgsdev.service.BlockService;
-import com.jesusgsdev.service.BlockchainService;
 import com.jesusgsdev.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,17 +32,19 @@ public class TransactionController {
         Wallet recipientWallet = walletService.getWalletById(transactionRestInput.getRecipientWalletId());
         Float amount = transactionRestInput.getAmount();
 
-        Block block = blockService.prepareNewBlock();
-        LOGGER.info("Origin Wallet's balance is: " + walletService.getBalance(senderWallet));
-        LOGGER.info("Recipient Wallet's balance is: " + walletService.getBalance(recipientWallet));
+        Float senderWalletBalance = walletService.getBalance(senderWallet);
+        Float recipientWalletBalance = walletService.getBalance(recipientWallet);
+        LOGGER.info("Origin Wallet's balance is: " + senderWalletBalance);
+        LOGGER.info("Recipient Wallet's balance is: " + recipientWalletBalance);
         LOGGER.info("Origin Wallet is Attempting to send funds ("+ amount +") to Destination Wallet...");
 
+        Block block = blockService.prepareNewBlock();
         Transaction transaction = walletService.sendFunds(senderWallet, recipientWallet.getPublicKey(), amount);
         blockService.addTransaction(block, transaction);
         blockService.addBlock(block);
 
-        LOGGER.info("Origin Wallet's balance will be: " + walletService.getBalance(senderWallet));
-        LOGGER.info("Destination Wallet's balance will be: " + walletService.getBalance(recipientWallet));
+        LOGGER.info("Origin Wallet's balance will be: " + (senderWalletBalance - amount));
+        LOGGER.info("Destination Wallet's balance will be: " + (recipientWalletBalance + amount));
     }
 
 }
