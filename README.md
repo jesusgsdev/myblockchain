@@ -1,3 +1,5 @@
+[![BCH compliance](https://bettercodehub.com/edge/badge/jesusgsdev/myblockchain?branch=master)](https://bettercodehub.com/)
+
 # My Blockchain
 
 The current implementation of the Blockchain in Java allows:
